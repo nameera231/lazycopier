@@ -153,14 +153,14 @@ void* chunk_copy_eager(void* chunk) {
 void* chunk_copy_lazy(void* chunk) {
   // Just to make sure your code works, this implementation currently calls the eager copy version
 
-  // Your implementation should do the following:
+  // 
   // 1. Use mremap to create a duplicate mapping of the chunk passed in
   void* newest = mremap(chunk, 0, CHUNKSIZE, MREMAP_MAYMOVE);
   if(newest == MAP_FAILED){
     perror("mremap failure");
   }
   // 2. Mark both mappings as read-only
-  //ADD ERROR CHECKS
+  
   
   if(mprotect(chunk, CHUNKSIZE, PROT_READ) == -1){
     perror("mprotect failure");
@@ -170,13 +170,13 @@ void* chunk_copy_lazy(void* chunk) {
   }
   
   // 3. Keep some record of both lazy copies so you can make them writable later.
-  //    At a minimum, you'll need to know where the chunk begins and ends.
+  //     need to know where the chunk begins and ends.
   list_insert(&address_book, chunk);
   list_insert(&address_book, newest);
   
   return newest;
   
-  // Later, if either copy is written to you will need to:
+  // Later, 
   // 1. Save the contents of the chunk elsewhere (a local array works well)
   // 2. Use mmap to make a writable mapping at the location of the chunk that was written
   // 3. Restore the contents of the chunk to the new writable mapping
